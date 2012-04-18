@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  h1 Jade - node template engine
+    youAreUsingJade = true
+    #container
+      - if (youAreUsingJade)
+        p You are amazing
+      - else
+        p Get on it!
+  label Username:
+    input(name='user[name]')
+  friends = 10
+    case friends
+      when 0
+        p you have no friends
+      when 1
+        p you have a friend
+      default
+        p you have #{friends} friends
+  
+  . Users
+  users = [{ name: 'Tobi', occupation: 'Ferret' }]
+  each user in users
+    .user
+      include user
+  
+  d = {id: 11, title: "ABC", data: "Sossa data"}
+  h2 Edit Document
+    form(method='post', action='/documents/' + d.id)
+      input(name='document[id]', value=d.id, type='hidden')
+      input(name='_method', value='PUT', type='hidden')
+      !=partial('fields', { locals: { d: d } })
+
+  
