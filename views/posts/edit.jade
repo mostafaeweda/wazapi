@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  form(action='/posts', method='post')
+    input(type='hidden', name='_method', value='#{post.id ? "put" : "post"}')
+    .input
+      label Title:
+      input(name='post[title]', value='#{post.title || ""}')
+    .input
+      label Body:
+      input(name='post[body]', value='#{post.body || ""}')
+    .input
+      input(type='submit', value='#{post.id ? "Update" : "Create"}')

@@ -5,9 +5,9 @@ var settings = {
     , 'internal_host' : '127.0.0.1'
     , 'internal_port' : 8080
 	, 'port': 8080
-	, 'uri': 'http://moni-air.local:8080' // Without trailing /
+	, 'uri': 'http://wazapi.dev:8080' // Without trailing /
     , 'redisOptions': {host: '127.0.0.1', port: 6379}
-    , 'mongoUrl': 'mongodb://localhost/mongodb-asms'
+    , 'mongoUrl': 'mongodb://localhost/mongodb-wazapi'
 	// You can add multiple recipients for notifo notifications
 	, 'notifoAuth': null /*[
 		{
