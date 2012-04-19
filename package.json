@@ -8,6 +8,7 @@
     "connect-assetmanager-handlers" : ">=0.0.17",
     "express": "2.5.8",
     "jade": ">= 0.0.1",
+    "stylus": ">= 0.0.1",
     "socket.io" : ">=0.7.8",
     "connect-redis" : ">=1.0.7",
     "connect-notifo" : ">=0.0.1",

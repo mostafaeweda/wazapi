@@ -20,18 +20,6 @@ block content
         p you have a friend
       default
         p you have #{friends} friends
-  
-  . Users
-  users = [{ name: 'Tobi', occupation: 'Ferret' }]
-  each user in users
-    .user
-      include user
-  
-  d = {id: 11, title: "ABC", data: "Sossa data"}
-  h2 Edit Document
-    form(method='post', action='/documents/' + d.id)
-      input(name='document[id]', value=d.id, type='hidden')
-      input(name='_method', value='PUT', type='hidden')
-      !=partial('fields', { locals: { d: d } })
+  // !=partial('fields', { locals: { d: d } })
 
   

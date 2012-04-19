@@ -17,7 +17,7 @@ mongoose.connect(config.mongoUrl);
 var Schema = require('./db/schema');
 
 var RedisStore = require('connect-redis')(express);
-var sessionStore = new RedisStore(config.redisOptions);
+// var sessionStore = new RedisStore(config.redisOptions);
 
 var app = module.exports = express.createServer();
 app.config = config;
@@ -74,12 +74,26 @@ app.configure(function(){
   });
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(assetsMiddleware);
+
+  // app.use(assetsMiddleware);
+
+  function compile(str, path) {
+    return stylus(str)
+      .set('filename', path)
+      .set('warn', true)
+      .set('compress', false);
+  }
+  app.use(require('stylus').middleware({
+    src: __dirname + '/public/css',
+    dest: __dirname + '/public/css',
+    compile: compile
+  }));
+
   app.use(express.favicon());
-  app.use(express.session({
+/*  app.use(express.session({
     'store': sessionStore,
     'secret': config.sessionSecret
-  }));
+  }));*/
   app.use(express.logger({format: ':response-time ms - :date - :req[x-real-ip] - :method :url :user-agent / :referrer'}));
   app.use(express.methodOverride());
   app.use(app.router);
@@ -101,6 +115,21 @@ app.configure('production', function(){
   });
 });
 
+// Template helpers
+app.dynamicHelpers({
+  'assetsCacheHashes': function(req, res) {
+    return assetsMiddleware.cacheHashes;
+  },
+  'session': function(req, res) {
+    return req.session;
+  }
+});
+
+app.helpers({
+  staticPrefix: '',
+  name: 'Wazapi'
+});
+
 // Error handling
 
 function NotFound(msg){
@@ -119,8 +148,6 @@ app.error(function(err, req, res, next){
     res.render('errors/500');
   }
 });
-
-// MongoDB Models
 
 // Parameter processing
 app.param('bookId', function(req, res, next, id) {
@@ -185,8 +212,11 @@ app.post('/books/:bookId([0-9a-f]+)/comments', routes.books.comments.create);
 
 
 // If all fails, hit em with the 404
+// This will be enabled when using assetManager
+/*
 app.all('*', function(req, res){
   throw new NotFound;
 });
+*/
 
 console.log('Running in ' + ( process.env.NODE_ENV || 'development' ) + ' mode @ ' + config.uri);
