@@ -14,6 +14,7 @@ var assetManager = require('connect-assetmanager');
 
 var mongoose = require('mongoose');
 mongoose.connect(config.mongoUrl);
+var Schema = require('./db/schema');
 
 var RedisStore = require('connect-redis')(express);
 var sessionStore = new RedisStore(config.redisOptions);
@@ -121,31 +122,13 @@ app.error(function(err, req, res, next){
 
 // MongoDB Models
 
-var Schema = mongoose.Schema
-  , ObjectId = Schema.ObjectId;
-
-var Comments = new Schema({
-    body      : String
-  , date      : { type: Date, default: Date.now }
-});
-
-var BlogPost = new Schema({
-    title     : String
-  , body      : String
-  , date      : { type: Date, default: Date.now }
-  , comments  : [Comments]
-});
-
-var Post = mongoose.model('BlogPost', BlogPost);
-
-BlogPost = mongoose.model('BlogPost');
-
 // Parameter processing
-app.param('postId', function(req, res, next, id){
-  Post.findById(id, function(err, post){
+app.param('bookId', function(req, res, next, id) {
+  console.log('id: ', id);
+  Schema.Book.findById(id, function(err, book) {
     if (err) return next(err);
-    if (!post) return next(new Error('failed to find post'));
-    req.post = post;
+    if (!book) return next(new Error('failed to find post'));
+    req.book = book;
     next();
   });
 });
@@ -153,6 +136,7 @@ app.param('postId', function(req, res, next, id){
 // Routing
 var routes = require('./routes');
 
+/*
 app.post('/posts', function(req, res, next){
   // create a blog post
   var post = new BlogPost(req.body.post);
@@ -176,34 +160,29 @@ app.put('/posts/:postId', function(req, res, next){
     res.redirect('posts/' + req.post._id);
 
   });
-
   // find, update and save
 });
 
-app.get('/posts/:postId', function (req, res) {
+app.get('/posts/:postId[0-9a-f]+', function (req, res) {
   res.render('posts/post', { title: "Blog Post", post: req.post });
 });
 
 app.get('/posts/new', function (req, res) {
+  console.log("here");
   res.render('posts/edit', { title: "New post", post: {} });
 });
 
-app.get('/posts/:postId/edit', function (req, res) {
+app.get('/posts/:postId[0-9a-f]+/edit', function (req, res) {
   res.render('posts/edit', { title: "Edit post", post: req.post });
 });
-
-app.post('/posts/:postId/comments', function(req, res, next) {
-  // create a comment
-  var post = req.post;
-  post.comments.push(req.body.comment);
-  post.save(function (err) {
-    if (err) return next(err);
-
-    console.log('Success!');
-  });
-});
+*/
 
 app.get('/', routes.index);
+app.get('/books', routes.books.index);
+app.get('/books/:bookId([0-9a-f]+)', routes.books.show);
+app.post('/books/:bookId([0-9a-f]+)/comments', routes.books.comments.create);
+
+
 
 // If all fails, hit em with the 404
 app.all('*', function(req, res){

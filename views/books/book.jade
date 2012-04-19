@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+  .field ISBN: #{book.ISBN}
+  .field Title: #{book.title}
+  .field Author: #{book.author}
+  .field Publisher: #{book.publisher}
+  .field Publish Date #{book.publishDate}
+  .field Create Date #{book.createdDate}
+  .field Creator #{book.creator}
+  .tags
+    | Tags
+    each tag in book.tags
+      .tag #{tag} 
+  .field Instances #{book.instancesNum}
+  .field Borrowed #{book.borrowedNum}
+  .field Market Price #{book.marketPrice}
+  .field Rental Price #{book.rentalPrice}
+  .comments
+    | Comments
+    each comment in book.comments
+      include comments/comment
+  .comment_form
+    include comments/new
