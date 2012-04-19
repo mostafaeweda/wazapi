@@ -1,7 +1,7 @@
 --- 
 applications: 
   .: 
-    name: asms
+    name: wazapi
     url: ${name}.${target-base}
     framework: 
       name: node
