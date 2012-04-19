@@ -6,8 +6,8 @@ This lending and trading system aims to bring the user a new buying and - most i
 
 ## Features
   * First LEGAL lending system.
-  * Buy books online and lend them to your friends
-  * Rent them to other users.
+  * Buy books online and lend them to your friends.
+  * Rent book to other users.
 
 ## Browser Support
 We are initially supporting firefox and chrome and this is a development repo, other browsers might be less stable until a proper release.
@@ -30,7 +30,7 @@ This runs the app locally on
 
 ## Developers in this project
 
-[Mostafa Eweda](https://github.com/mostafaeweda)
-[Ahmed ElMorsy](http://github.com/ahmedelmorsy)
-[Yahya Mowiena](http://github.com/mowiena)
-[Ahmed ElBayaa](http://github.com/ElBayaa)
+* [Mostafa Eweda](https://github.com/mostafaeweda)
+* [Ahmed ElMorsy](http://github.com/ahmedelmorsy)
+* [Yahya Mowiena](http://github.com/mowiena)
+* [Ahmed ElBayaa](http://github.com/ElBayaa)
