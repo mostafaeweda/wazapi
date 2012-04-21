@@ -1,10 +1,10 @@
 /*
- * GET home page.
+ * Create a comment on a book
  */
 exports.create = function(req, res, next) {
   // create a comment
   var book = req.book;
-  var comment = {creator: req.user || "4f9001efd56ca963ee312bc7", body: req.body.comment.body};
+  var comment = {creator: req.user, body: req.body.comment.body};
   book.comments.push(comment);
   console.log(JSON.stringify(comment));
   book.save(function (err) {
