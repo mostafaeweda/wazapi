@@ -99,11 +99,10 @@ app.configure(function(){
   }));
   app.use(express.logger({format: ':response-time ms - :date - :req[x-real-ip] - :method :url :user-agent / :referrer'}));
   app.use(express.methodOverride());
-  app.use(app.router);
   app.use(Auth.middleware());
+  app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
-
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -124,8 +123,28 @@ app.dynamicHelpers({
   // 'assetsCacheHashes': function(req, res) {
   //   return assetsMiddleware.cacheHashes;
   // },
-  'session': function(req, res) {
+  session: function(req) {
     return req.session;
+  },
+
+  req: function(req) {
+    return req;
+  },
+
+  hasMessages: function(req) {
+    if (!req.session) return false;
+    console.log('There exist a session');
+    return Object.keys(req.session.flash || {}).length;
+  },
+
+  messages: function(req) {
+    return function() {
+      var msgs = req.flash();
+      console.log('msgs: ', msgs);
+      return Object.keys(msgs).reduce(function(arr, type){
+        return arr.concat(msgs[type]);
+      }, []);
+    }
   }
 });
 
