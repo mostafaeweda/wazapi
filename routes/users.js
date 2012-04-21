@@ -1,6 +1,10 @@
+var app = require('../app');
+
+var User = app.Schema.User;
+
 /*
-Create but not create
-*/
-exports.create = function(req, res) {
+ * Create a user
+ */
+ exports.create = function(req, res) {
   res.render('users/create', { title: 'Express' });
 };

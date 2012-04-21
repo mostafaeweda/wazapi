@@ -39,6 +39,7 @@ var User = new Schema({
     email      : { type: String, required: true, index: { unique: true, sparse: true } },
     password   : { type: String, required: true},
     billing    : {},
+    tokens     : {},
     alive      : { type: Boolean, default: false }
 });
 

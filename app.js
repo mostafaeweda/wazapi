@@ -17,7 +17,7 @@ mongoose.connect(config.mongoUrl);
 var Schema = require('./db/schema');
 
 var RedisStore = require('connect-redis')(express);
- var sessionStore = new RedisStore(config.redisOptions);
+ // var sessionStore = new RedisStore(config.redisOptions);
 
 var app = module.exports = express.createServer();
 app.config = config;
@@ -94,16 +94,15 @@ app.configure(function(){
 
   app.use(express.favicon());
   app.use(express.session({
-    'store': sessionStore,
+//    'store': sessionStore,
     'secret': config.sessionSecret
   }));
   app.use(express.logger({format: ':response-time ms - :date - :req[x-real-ip] - :method :url :user-agent / :referrer'}));
   app.use(express.methodOverride());
-  app.use(app.router);
   app.use(Auth.middleware());
+  app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
-
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -124,8 +123,28 @@ app.dynamicHelpers({
   // 'assetsCacheHashes': function(req, res) {
   //   return assetsMiddleware.cacheHashes;
   // },
-  'session': function(req, res) {
+  session: function(req) {
     return req.session;
+  },
+
+  req: function(req) {
+    return req;
+  },
+
+  hasMessages: function(req) {
+    if (!req.session) return false;
+    console.log('There exist a session');
+    return Object.keys(req.session.flash || {}).length;
+  },
+
+  messages: function(req) {
+    return function() {
+      var msgs = req.flash();
+      console.log('msgs: ', msgs);
+      return Object.keys(msgs).reduce(function(arr, type){
+        return arr.concat(msgs[type]);
+      }, []);
+    }
   }
 });
 
@@ -153,60 +172,8 @@ app.error(function(err, req, res, next){
   }
 });
 
-// Parameter processing
-app.param('bookId', function(req, res, next, id) {
-  console.log('id: ', id);
-  Schema.Book.findById(id, function(err, book) {
-    if (err) return next(err);
-    if (!book) return next(new Error('failed to find post'));
-    req.book = book;
-    next();
-  });
-});
-
 // Routing
 var routes = require('./routes');
-
-/*
-app.post('/posts', function(req, res, next){
-  // create a blog post
-  var post = new BlogPost(req.body.post);
-
-  post.save(function (err) {
-    if (err) return next(err);
-
-    console.log('Success!');
-    res.redirect('back');
-  });
-});
-
-app.put('/posts/:postId', function(req, res, next){
-  // create a blog post
-  var post = req.post, reqPost = req.body.post;
-  for (var attrname in reqPost)
-    post[attrname] = reqPost[attrname];
-  post.save(function (err) {
-    if (err) return next(err);
-
-    res.redirect('posts/' + req.post._id);
-
-  });
-  // find, update and save
-});
-
-app.get('/posts/:postId[0-9a-f]+', function (req, res) {
-  res.render('posts/post', { title: "Blog Post", post: req.post });
-});
-
-app.get('/posts/new', function (req, res) {
-  console.log("here");
-  res.render('posts/edit', { title: "New post", post: {} });
-});
-
-app.get('/posts/:postId[0-9a-f]+/edit', function (req, res) {
-  res.render('posts/edit', { title: "Edit post", post: req.post });
-});
-*/
 
 app.get('/', routes.index);
 app.get('/books', routes.books.index);
