@@ -2,6 +2,8 @@ extends layout
 
 block content
   h1= title
+  if everyauth.user
+    p Email: #{everyauth.user.email}
   p Welcome to #{title}
   h1 Jade - node template engine
     youAreUsingJade = true
@@ -22,4 +24,13 @@ block content
         p you have #{friends} friends
   // !=partial('fields', { locals: { d: d } })
 
-  
+  - if (everyauth.loggedIn)
+    h2 Authenticated
+    - if (everyauth.facebook)
+      h3 Facebook User Data
+      p= JSON.stringify(everyauth.facebook.user)
+    - if (everyauth.google)
+      h3 Google User Data
+      p= JSON.stringify(everyauth.google.user)
+    h3
+      a(href='/logout') Logout

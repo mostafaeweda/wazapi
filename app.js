@@ -10,59 +10,62 @@ process.addListener('uncaughtException', function (err, stack) {
 });
 
 var express = require('express');
-var assetManager = require('connect-assetmanager');
+//var assetManager = require('connect-assetmanager');
 
 var mongoose = require('mongoose');
 mongoose.connect(config.mongoUrl);
 var Schema = require('./db/schema');
 
 var RedisStore = require('connect-redis')(express);
-// var sessionStore = new RedisStore(config.redisOptions);
+ var sessionStore = new RedisStore(config.redisOptions);
 
 var app = module.exports = express.createServer();
 app.config = config;
+app.Schema = Schema;
+
+var Auth = require('./lib/auth');
 
 app.listen(config.internal_port, null);
 
-var assetsSettings = {
-  'js': {
-    'route': /\/static\/js\/[^]+\.js/
-    , 'path': './public/js/'
-    , 'dataType': 'javascript'
-    , 'files': [
-      'jquery-latest.js'
-//      , siteConf.uri+'/socket.io/socket.io.js' // special case since the socket.io module serves its own js
-    ]
-    , 'debug': true
-/*    , 'postManipulate': {
-      '^': [
-        assetHandler.uglifyJsOptimize
-        , function insertSocketIoPort(file, path, index, isLast, callback) {
-          callback(file.replace(/.#socketIoPort#./, siteConf.port));
-        }
-      ]
-    }*/
-  }
-  , 'css': {
-    'route': /\/static\/css\/[^]+\.css/
-    , 'path': './public/css/'
-    , 'dataType': 'css'
-    , 'files': [
-      'style.css'
-    ]
-    , 'debug': true
-/*    , 'postManipulate': {
-      '^': [
-        assetHandler.fixVendorPrefixes
-        , assetHandler.fixGradients
-        , assetHandler.replaceImageRefToBase64(__dirname+'/public')
-        , assetHandler.yuiCssOptimize
-      ]
-    }*/
-  }
-};
+// var assetsSettings = {
+//   'js': {
+//     'route': /\/static\/js\/[^]+\.js/
+//     , 'path': './public/js/'
+//     , 'dataType': 'javascript'
+//     , 'files': [
+//       'jquery-latest.js'
+// //      , siteConf.uri+'/socket.io/socket.io.js' // special case since the socket.io module serves its own js
+//     ]
+//     , 'debug': true
+// /*    , 'postManipulate': {
+//       '^': [
+//         assetHandler.uglifyJsOptimize
+//         , function insertSocketIoPort(file, path, index, isLast, callback) {
+//           callback(file.replace(/.#socketIoPort#./, siteConf.port));
+//         }
+//       ]
+//     }*/
+//   }
+//   , 'css': {
+//     'route': /\/static\/css\/[^]+\.css/
+//     , 'path': './public/css/'
+//     , 'dataType': 'css'
+//     , 'files': [
+//       'style.css'
+//     ]
+//     , 'debug': true
+// /*    , 'postManipulate': {
+//       '^': [
+//         assetHandler.fixVendorPrefixes
+//         , assetHandler.fixGradients
+//         , assetHandler.replaceImageRefToBase64(__dirname+'/public')
+//         , assetHandler.yuiCssOptimize
+//       ]
+//     }*/
+//   }
+// };
 
-var assetsMiddleware = assetManager(assetsSettings);
+//var assetsMiddleware = assetManager(assetsSettings);
 
 // Configuration
 
@@ -90,13 +93,14 @@ app.configure(function(){
   }));
 
   app.use(express.favicon());
-/*  app.use(express.session({
+  app.use(express.session({
     'store': sessionStore,
     'secret': config.sessionSecret
-  }));*/
+  }));
   app.use(express.logger({format: ':response-time ms - :date - :req[x-real-ip] - :method :url :user-agent / :referrer'}));
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(Auth.middleware());
   app.use(express.static(__dirname + '/public'));
 });
 
@@ -117,9 +121,9 @@ app.configure('production', function(){
 
 // Template helpers
 app.dynamicHelpers({
-  'assetsCacheHashes': function(req, res) {
-    return assetsMiddleware.cacheHashes;
-  },
+  // 'assetsCacheHashes': function(req, res) {
+  //   return assetsMiddleware.cacheHashes;
+  // },
   'session': function(req, res) {
     return req.session;
   }
@@ -209,7 +213,7 @@ app.get('/books', routes.books.index);
 app.get('/books/:bookId([0-9a-f]+)', routes.books.show);
 app.post('/books/:bookId([0-9a-f]+)/comments', routes.books.comments.create);
 
-
+Auth.helpExpress(app);
 
 // If all fails, hit em with the 404
 // This will be enabled when using assetManager

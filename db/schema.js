@@ -37,6 +37,7 @@ var User = new Schema({
     firstname  : String,
     lastname   : String,
     email      : { type: String, required: true, index: { unique: true, sparse: true } },
+    password   : { type: String, required: true},
     billing    : {},
     alive      : { type: Boolean, default: false }
 });
@@ -72,6 +73,10 @@ Book.statics.findByTitle = function (title, callback) {
 
 Book.methods.expressiveQuery = function (creator, date, callback) {
   return this.find('creator', creator).where('date').gte(date).run(callback);
+};
+
+User.statics.findByEmail = function (email, callback) {
+  return this.findOne({'email':email}, callback);
 };
 
 exports.Book = mongoose.model('Book', Book);
