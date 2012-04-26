@@ -27,6 +27,14 @@ var Auth = require('./lib/auth');
 
 app.listen(config.internal_port, null);
 
+if (process.argv.length > 2 && process.argv[2] === '--init') {
+  console.log('Initializing DB');
+  require('./db/init')(app, function() {
+    console.log('DB initialized');
+    process.exit();
+  });
+}
+
 // var assetsSettings = {
 //   'js': {
 //     'route': /\/static\/js\/[^]+\.js/
