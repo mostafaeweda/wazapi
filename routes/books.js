@@ -5,6 +5,7 @@ var per_page = app.config.per_page;
 var Book = app.Schema.Book;
 
 exports.comments = require('./comments');
+exports.tags = require('./tags');
 
 // Parameter processing
 app.param('bookId', function(req, res, next, id) {

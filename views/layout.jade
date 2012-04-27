@@ -1,8 +1,9 @@
 !!! 5
 html
-  head
+  block head
     title= appName
     link(rel='stylesheet', href='#{staticPrefix}/css/style.css')
+    script(src='#{staticPrefix}/js/jquery-latest.js')
   body
     include includes/header
     block content

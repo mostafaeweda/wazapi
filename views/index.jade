@@ -1,11 +1,18 @@
 extends layout
 
+append head
+  script(src='#{staticPrefix}/js/app.js')
+
 block content
   if everyauth.user
     p Email: #{everyauth.user.email}
 
   // !=partial('fields', { locals: { d: d } })
-  each book in mostRented
-    include books/book
-  each tag in tags
-    | #{tag.name} (#{tag.frequency})
+  #sidebar
+    | Categories
+    each tag in tags
+      .tag: a(href="javascript:app.load('center_box', '/books/tags/#{tag._id}')") #{tag.name} (#{tag.frequency})
+  #center_box
+    | Most rented books
+    each book in mostRented
+      include books/book
