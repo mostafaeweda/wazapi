@@ -17,15 +17,19 @@ We are initially supporting firefox and chrome and this is a development repo, o
 You will need git, [node 0.6.x](https://github.com/joyent/node/zipball/v0.6.15), [nodemon](https://github.com/remy/nodemon/) and [npm](http://npmjs.org/) to be able to run the following:
 
 Clone the repository
+
     $ git clone git@github.com:mostafaeweda/wazapi.git
 
 Install dependencies
+
     $ npm install
 
 Start the application using nodemon
+
     $ nodemon app.js
 
-This runs the app locally on
+This runs the app locally on:
+
     [http://localhost:3000](http://localhost:3000)
 
 ## Developers in this project
