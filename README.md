@@ -25,15 +25,14 @@ Install dependencies
     $ npm install
 
 Initialize the mongo db
+
     $ node app.js --init
 
 Start the application using nodemon
 
     $ nodemon app.js
 
-This runs the app locally on:
-
-    [http://localhost:3000](http://localhost:3000)
+This runs the app locally on: [http://localhost:3000](http://localhost:3000)
 
 ## Developers in this project
 
