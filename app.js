@@ -6,7 +6,7 @@ process.title = config.uri.replace(/http:\/\/(www)?/, '');
 process.addListener('uncaughtException', function (err, stack) {
   console.log('Caught exception: '+err+'\n'+err.stack);
   console.log('\u0007'); // Terminal bell
-  if (airbrake) { airbrake.notify(err); }
+//  if (airbrake) { airbrake.notify(err); }
 });
 
 var express = require('express');
@@ -83,21 +83,26 @@ app.configure(function(){
   app.set('view options', {
     layout: false
   });
+
   app.use(express.bodyParser());
   app.use(express.cookieParser());
+  app.use(express.methodOverride());
+  app.use(express.logger({format: ':response-time ms - :date - :req[x-real-ip] - :method :url :user-agent / :referrer'}));
 
   // app.use(assetsMiddleware);
+
+  var stylus = require('stylus');
 
   function compile(str, path) {
     return stylus(str)
       .set('filename', path)
-      .set('warn', true)
       .set('compress', false);
   }
-  app.use(require('stylus').middleware({
-    src: __dirname + '/public/css',
-    dest: __dirname + '/public/css',
-    compile: compile
+
+  app.use(stylus.middleware({
+      src: __dirname + '/public',
+      dest: __dirname + '/public',
+      compile: compile
   }));
 
   app.use(express.favicon());
@@ -105,8 +110,7 @@ app.configure(function(){
 //    'store': sessionStore,
     'secret': config.sessionSecret
   }));
-  app.use(express.logger({format: ':response-time ms - :date - :req[x-real-ip] - :method :url :user-agent / :referrer'}));
-  app.use(express.methodOverride());
+
   app.use(Auth.middleware());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
@@ -158,7 +162,7 @@ app.dynamicHelpers({
 
 app.helpers({
   staticPrefix: '',
-  name: 'Wazapi'
+  appName: 'Wazapi'
 });
 
 // Error handling

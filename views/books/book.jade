@@ -1,11 +1,8 @@
-extends ../layout
-
-block content
-  image(src=book.coverUrl, alt=book.title)
-  | ISBN: #{book.ISBN}
-  | Title: #{book.title}
-  if (book.instancesNum)
-    a(href="javascript:alert('Rent popup')")
-      | Rent
-  a(href="javascript:alert('Amazon Purchase')")
-    | Purchase
+image(src=book.coverUrl, alt=book.title)
+| ISBN: #{book.ISBN}
+| Title: #{book.title}
+if (book.instancesNum)
+  a(href="javascript:alert('Rent popup')")
+    | Rent
+a(href="javascript:alert('Amazon Purchase')")
+  | Purchase
