@@ -1,5 +1,7 @@
 var app = require('../app');
 
+var per_page = app.config.per_page;
+
 var Book = app.Schema.Book;
 
 exports.comments = require('./comments');
@@ -26,6 +28,17 @@ exports.index = function(req, res) {
  */
 exports.show = function(req, res) {
   res.render('books/book', { title: "Book", book: req.book });
+};
+
+exports.newBooks = function(req, res, next) {
+  var page = +req.param.page;
+
+  Book.sort('uploadDate', 1).skip(page*per_page)
+      .limit(per_page).find(function (err, books) {
+          if (err) return next(err);
+
+          res.render('books/box', { books: books });
+      });
 };
 
 /*

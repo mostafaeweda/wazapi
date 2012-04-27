@@ -31,9 +31,11 @@ var settings = {
 			appId: process.env.github_client_id,
 			appSecret: process.env.github_client_secret
 		}
-	}
+	},
 
-	, 'debug': cf.cloud
+	per_page: 9,
+
+	'debug': cf.cloud
 };
 
 if (cf.cloud) {

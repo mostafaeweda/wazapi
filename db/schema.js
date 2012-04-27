@@ -17,18 +17,27 @@ var Comment = new Schema({
     body      : String
 });
 
+var Tag = new Schema({
+    name         : { type: String, index: { unique: true, sparse: true } },
+    type         : { type: String },
+    object       : Schema.ObjectId,
+    frequency    : { type: Number, index: true },
+});
+
 var Book = new Schema({
-    ISBN         : { type: Number, index: { unique: true, sparse: true } },
+    ISBN         : { type: String, index: { unique: true, sparse: true } },
     title        : { type: String, index: true },
+    coverUrl     : String,
     author       : { type: String, trim: true },
     publisher    : { type: String, trim: true },
     publishDate  : Date,
     createdDate  : { type: Date, default: Date.now },
-    creator      : { type: Schema.ObjectId, ref: 'User' },
-    tags         : [String],
+    owner       : { type: Schema.ObjectId, ref: 'User' },
+    tags         : [Tag],
     comments     : [Comment],
-    instancesNum : Number,
-    borrowedNum  : Number,
+    instancesNum : Number, // The total number of instances available
+    borrowedNum  : Number, // The currently borrowed number of instances
+    rentalHits   : { type: Number, index: { unique: true, sparse: true } }, // Number of times this book has been rented
     marketPrice  : Number,
     rentalPrice  : Number
 });
@@ -44,18 +53,20 @@ var User = new Schema({
 });
 
 // A single instance to be borrowed
-var Borrow = new Schema({
+var Instance = new Schema({
     user      : { type: Schema.ObjectId, ref: 'User' },
     object    : Schema.ObjectId,
     type      : { type: String },
-    startTime : Date,
-    endTime   : Date
+    startTime : { type: Date, default: Date.now },
+    endTime   : Date,
+    available : { type: Boolean, default: true }
 });
 
 // A user purchase
 var Purchase = new Schema({
     user      : { type: Schema.ObjectId, ref: 'User' },
     object    : Schema.ObjectId,
+    date      : { type: Date, default: Date.now },
     type      : { type: String },
     price     : Number
 });
@@ -63,7 +74,6 @@ var Purchase = new Schema({
 /**
  * Methods
  */
-
 Book.methods.findCreator = function (callback) {
   return this.db.model('User').findById(this.creator, callback);
 };
@@ -80,7 +90,8 @@ User.statics.findByEmail = function (email, callback) {
   return this.findOne({'email':email}, callback);
 };
 
+exports.Tag = mongoose.model('Tag', Tag);
 exports.Book = mongoose.model('Book', Book);
 exports.User = mongoose.model('User', User);
-exports.Borrow = mongoose.model('Borrow', Borrow);
+exports.Instance = mongoose.model('Instance', Instance);
 exports.Purchase = mongoose.model('Purchase', Purchase);

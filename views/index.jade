@@ -1,53 +1,11 @@
 extends layout
 
 block content
-  if (everyauth.loggedIn)
-    h2 Authenticated
-    if (everyauth.facebook)
-      h3 Facebook User Data
-      p= JSON.stringify(everyauth.facebook.user)
-    if (everyauth.google)
-      h3 Google User Data
-      p= JSON.stringify(everyauth.google.user)
-    h3
-      a(href='/logout') Logout
-
-  if everyauth.user
-    h1= everyauth.user.email
-  h1= title
   if everyauth.user
     p Email: #{everyauth.user.email}
-  p Welcome to #{title}
-  h1 Jade - node template engine
-    youAreUsingJade = true
-    #container
-      - if (youAreUsingJade)
-        p You are amazing
-      - else
-        p Get on it!
-  label Username:
-    input(name='user[name]')
-  friends = 10
-    case friends
-      when 0
-        p you have no friends
-      when 1
-        p you have a friend
-      default
-        p you have #{friends} friends
+
   // !=partial('fields', { locals: { d: d } })
-
-  #fb-login.fb_button(style='background-position: left -188px')
-    a.fb_button_medium(href='/auth/facebook')
-      span#fb_login_text.fb_button_text
-        Connect with Facebook
-
-  #google-login
-    a(href='/auth/google', style='border: 0px')
-      img(style='border: 0px', src='https://www.google.com/favicon.ico')
-
-  if hasMessages
-    | Messages
-    ul#messages
-    each msg in messages
-      li= msg
+  each book in mostRented
+    include books/book
+  each tag in tags
+    | #{tag.name} (#{tag.frequency})

@@ -16,6 +16,7 @@
     "everyauth" : ">=0.2.18",
     "cloudfoundry" : ">=0.1.0",
     "activity-streams-mongoose": ">=0.0.6",
-    "mongoose": ""
+    "mongoose": "",
+    "asynjs": "0.0.6"
   }
 }

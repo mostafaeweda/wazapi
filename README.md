@@ -24,6 +24,9 @@ Install dependencies
 
     $ npm install
 
+Initialize the mongo db
+    $ node app.js --init
+
 Start the application using nodemon
 
     $ nodemon app.js
