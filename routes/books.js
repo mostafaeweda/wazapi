@@ -5,6 +5,7 @@ var per_page = app.config.per_page;
 var Book = app.Schema.Book;
 
 exports.comments = require('./comments');
+exports.tags = require('./tags');
 
 // Parameter processing
 app.param('bookId', function(req, res, next, id) {
@@ -17,10 +18,23 @@ app.param('bookId', function(req, res, next, id) {
 });
 
 /*
- * GET all books
+ * Search books
  */
-exports.index = function(req, res) {
-  res.render('index', { title: 'Express' });
+exports.search = function(req, res, next) { 
+    var criteria = req.query.product_criteria || 'title';
+    var q = req.query.q;
+
+    if (! q) return next(new Error('Search query not provided !!!'));
+
+    Book.where(criteria, new RegExp(q, 'i'))
+        .run(function(err, results) {
+
+        if (err) return next(err);
+
+        res.render('books/search', {
+            result: results
+        });
+    });
 };
 
 /*
@@ -28,17 +42,6 @@ exports.index = function(req, res) {
  */
 exports.show = function(req, res) {
   res.render('books/book', { title: "Book", book: req.book });
-};
-
-exports.newBooks = function(req, res, next) {
-  var page = +req.param.page;
-
-  Book.sort('uploadDate', 1).skip(page*per_page)
-      .limit(per_page).find(function (err, books) {
-          if (err) return next(err);
-
-          res.render('books/box', { books: books });
-      });
 };
 
 /*

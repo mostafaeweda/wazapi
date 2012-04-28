@@ -1,8 +1,13 @@
-image(src=book.coverUrl, alt=book.title)
-| ISBN: #{book.ISBN}
-| Title: #{book.title}
-if (book.instancesNum)
-  a(href="javascript:alert('Rent popup')")
-    | Rent
-a(href="javascript:alert('Amazon Purchase')")
-  | Purchase
+div.book_box
+  img.cover(src=book.coverUrl, alt=book.title)
+  | ISBN: #{book.ISBN}
+  | Title: #{book.title}
+  br
+  if (book.instancesNum > 0)
+    span.rent_button
+      a(href="javascript:alert('Rent popup')")
+        | Rent
+  | 
+  span(class = book.instancesNum > 0 ? 'purchase_button' : 'purchase_only_button')
+    a(href="javascript:alert('Amazon Purchase')")
+      | Purchase
