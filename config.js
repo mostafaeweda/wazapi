@@ -20,8 +20,12 @@ var settings = {
 	// Enter API keys to enable auth services, remove entire object if they aren't used.
 	, 'external': {
 		'facebook': {
-			appId: process.env.facebook_app_id,
-			appSecret: process.env.facebook_app_secret
+			appId: "278100548945916",
+			appSecret: "c0978e40fab68b6b70751df882fcbce8"
+		}
+		, 'google': {
+			clientId: "821590616390.apps.googleusercontent.com",
+			clientSecret: "qtb4AA90N7zkMVDeEcJyXoXk"
 		}
 		, 'twitter': {
 			consumerKey: process.env.twitter_consumer_key,
