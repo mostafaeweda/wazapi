@@ -18,18 +18,20 @@ exports.index = function(req, res, next) {
         req.flash('info', 'Successfully logged in ' + req.user.email + '_.');
     // retrieve the newest books
 
-    Book.find({}).sort('uploadDate', -1).limit(per_page).find(function (err, newlyCreatedBooks) {
+    Book.find().sort('uploadDate', -1).limit(per_page).find(function (err, newlyCreatedBooks) {
         if (err) return next(err);
 
-        Book.find({}).sort('rentalHits', -1).limit(per_page).find(function (err, mostRentedBooks) {
+        Tag.find().sort('frequency', -1).limit(tagsNum).find(function(err, tags) {
             if (err) return next(err);
 
-            Tag.find({}).sort('frequency', -1).limit(tagsNum).find(function(err, tags) {
+            Book.count({}, function (err, count) {
                 if (err) return next(err);
+
+                var pagesNum = Math.ceil(count / per_page);
 
                 res.render('index', {
                     newlyCreated: newlyCreatedBooks,
-                    mostRented: mostRentedBooks,
+                    pagesNum: pagesNum,
                     tags: tags
                 });
             });

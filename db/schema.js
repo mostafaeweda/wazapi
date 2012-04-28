@@ -35,7 +35,7 @@ var Book = new Schema({
     comments     : [Comment],
     instancesNum : Number, // The total number of instances available
     borrowedNum  : Number, // The currently borrowed number of instances
-    rentalHits   : { type: Number, index: { unique: true, sparse: true } }, // Number of times this book has been rented
+    rentalHits   : { type: Number, index: { sparse: true } }, // Number of times this book has been rented
     marketPrice  : Number,
     rentalPrice  : Number
 });

@@ -14,21 +14,21 @@ block content
       option(value= 'author') Author
 
     input#query_text(type='text', value="Search")
-    input(type='button', value="GO", onclick="app.loadSearch('shelf_box');")
+    input(type='button', value="GO", onclick="app.loadSearch();")
 
 
   // !=partial('fields', { locals: { d: d } })
   #sidebar
     | Categories
-    .tag: a(href="javascript:app.load('shelf_box', '/books/')") All
+    .tag: a(href="javascript:app.loadTag()") All
     each tag in tags
-      .tag: a(href="javascript:app.loadTag('shelf_box', '#{tag._id}')") #{tag.name} (#{tag.frequency})
-  
+      .tag: a(href="javascript:app.loadTag('#{tag._id}')") #{tag.name} (#{tag.frequency})
+
   #center_box
     select#general_filter
-      option(value='most_rented', selected) Most rented books
-      option(value='newest') Newest Books
-    
+      option(value='newest', selected) Newest Books
+      option(value='most_rented') Most rented books
+
     #shelf_box
-      each book in mostRented
+      each book in newlyCreated
         include books/book

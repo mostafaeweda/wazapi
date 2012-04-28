@@ -1,6 +1,7 @@
 body
   padding: 50px
   font: 14px Arial, sans-serif
+
 a
   color: #00B7FF
 
@@ -14,6 +15,9 @@ a
   clear: both
 
 #shelf_box
+  // overflow: auto
+  width: 600px
+  height: 600px
   border-style: solid
   border-width: 1px
   padding: 10px
@@ -30,16 +34,31 @@ a
   border-width: 1px
   float: left
   margin: 5px
-  width: 220px
-  height: 220px
+  width: 185px
+  height: 185px
   img.cover
-    width: 200px
-    height: 150px
+    width: 180px
+    height: 130px
   .rent_button, .purchase_button
     background: blue
-    font: 14px Arial, sans-serif
   .purchase_only_button
+    background: blue
     font: 18px Arial, sans-serif
 
-#header, #footer
+#header
   clear: both
+#footer
+  border-style: solid
+  border-width: 1px
+  height: 45px
+  clear: both
+  ul
+    list-style: none
+    color: blue
+    float: left
+    li
+      display: inline
+      padding-right: 15px;
+  #copyright
+    padding-top: 15px
+    float: right

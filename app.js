@@ -145,7 +145,6 @@ app.dynamicHelpers({
 
   hasMessages: function(req) {
     if (!req.session) return false;
-    console.log('There exist a session');
     return Object.keys(req.session.flash || {}).length;
   },
 
@@ -190,7 +189,7 @@ var routes = require('./routes');
 app.get('/', routes.index);
 app.get('/books/search', routes.books.search);
 app.get('/books/:bookId([0-9a-f]+)', routes.books.show);
-app.get('/books/tags/:tagId([0-9a-f]+)', routes.books.tags.search);
+app.get('/books/tags/:tagId([0-9a-f]+)?', routes.books.tags.search);
 app.post('/books/:bookId([0-9a-f]+)/comments', routes.books.comments.create);
 
 Auth.helpExpress(app);

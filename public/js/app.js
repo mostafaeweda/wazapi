@@ -1,14 +1,27 @@
 var app = {
-  load: function (id, path) {
-    $('#'+id).load(path);
+  init: function() {
+    var _self = this;
+    $('#general_filter').change(function (e) {
+      _self.loadTag(null, this.value);
+    });
   },
-  loadTag: function (id, tagId) { 
-    $('#'+id).load('/books/tags/' + tagId
-        + '?filter=' + $('general_filter').val());
+
+  load: function (path) {
+    $('#shelf_box').load(path);
   },
-  loadSearch: function (id) {
-    $('#'+id).load('/books/search/'
+
+  loadTag: function (tagId, filter) { 
+    $('#shelf_box').load('/books/tags/' + (tagId || '')
+        + '?filter=' + (filter || $('#general_filter').val()));
+  },
+
+  loadSearch: function () {
+    $('#shelf_box').load('/books/search/'
         + '?filter='+$('#product_criteria').val()+'&q=' 
             + $('#query_text').val());
   }
 };
+
+$(document).ready(function() {
+  app.init();
+});

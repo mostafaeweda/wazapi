@@ -44,31 +44,6 @@ exports.show = function(req, res) {
   res.render('books/book', { title: "Book", book: req.book });
 };
 
-exports.newBooks = function(req, res, next) {
-  var page = +req.param.page;
-
-  Book.sort('uploadDate', 1).skip(page*per_page)
-      .limit(per_page).find(function (err, books) {
-          if (err) return next(err);
-
-          res.render('books/box', { books: books });
-      });
-};
-
-exports.mostRentedBooks = function(req, res, next) {
-  var page = +req.param.page;
-
-  Book.find({}).sort('rentalHits', -1).skip(page*per_page)
-      .limit(per_page).find(function (err, mostRentedBooks) {
-
-      if (err) return next(err);
-
-      res.render('books/search', {
-          result: mostRentedBooks
-      });
-  });
-};
-
 /*
  * Create a book
  */
