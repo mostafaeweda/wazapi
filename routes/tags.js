@@ -4,7 +4,7 @@ var per_page = app.config.per_page;
 
 var Book = app.Schema.Book;
 var Tag = app.Schema.Tag;
-
+ 
 /*
  * Search books with the specified tag or filter
  */
