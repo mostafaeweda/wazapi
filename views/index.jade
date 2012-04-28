@@ -10,9 +10,15 @@ block content
   // !=partial('fields', { locals: { d: d } })
   #sidebar
     | Categories
+    .tag: a(href="javascript:app.load('shelf_box', '/books/')") All
     each tag in tags
-      .tag: a(href="javascript:app.load('center_box', '/books/tags/#{tag._id}')") #{tag.name} (#{tag.frequency})
+      .tag: a(href="javascript:app.loadTag('shelf_box', '#{tag._id}')") #{tag.name} (#{tag.frequency})
+  
   #center_box
-    | Most rented books
-    each book in mostRented
-      include books/book
+    select#general_filter
+      option(value='most_rented', selected) Most rented books
+      option(value='newest') Newest Books
+    
+    #shelf_box
+      each book in mostRented
+        include books/book

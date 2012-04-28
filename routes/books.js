@@ -42,6 +42,20 @@ exports.newBooks = function(req, res, next) {
       });
 };
 
+exports.mostRentedBooks = function(req, res, next) {
+  var page = +req.param.page;
+
+  Book.find({}).sort('rentalHits', -1).skip(page*per_page)
+      .limit(per_page).find(function (err, mostRentedBooks) {
+
+      if (err) return next(err);
+
+      res.render('books/search', {
+          result: mostRentedBooks
+      });
+  });
+};
+
 /*
  * Create a book
  */

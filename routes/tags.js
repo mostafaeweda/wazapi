@@ -5,27 +5,35 @@ var per_page = app.config.per_page;
 var Book = app.Schema.Book;
 var Tag = app.Schema.Tag;
 
-// Parameter processing
-app.param('tagId', function(req, res, next, id) {
-  Tag.findById(id, function(err, tag) {
-    if (err) return next(err);
-    if (!tag) return next(new Error('failed to find tag'));
-    req.tag = tag;
-    next();
-  });
-});
-
 /*
- * GET books with the specified tag
+ * Search books with the specified tag
  */
-exports.search = function(req, res) {
-  Book.find({tags: req.tag._id}).sort('rentalHits', -1)
-      .limit(per_page).find(function (err, result) {
+exports.search = function(req, res, next) {
+    var tagId = req.params.tagId;
+    var filter = req.body.filter || 'most_rented';
+    if (! tagId) return next("Search tag not provided");
+    switch (filter) {
+        case 'most_rented':
+        Book.find({tags: tagId}).sort('rentalHits', -1)
+            .limit(per_page).find(displayRes);
+        break;
 
-      if (err) return next(err);
+        case 'newest':
+        Book.find({tags: tagId}).sort('createdDate', -1)
+            .limit(per_page).find(displayRes);
+        break;
 
-      res.render('books/search', {
-          result: result
-      });
-  });
+        default:
+            displayRes(new Error('Filter can\'t be applied'));
+        break;
+    }
+    function displayRes(err, result) {
+        if (err) return next(err);
+
+        res.render('books/search', {
+
+            result: result
+        });
+    }
+    
 };
