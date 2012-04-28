@@ -1,0 +1,12 @@
+table
+  tr 
+    td
+      include new
+    td(valign='top')
+      include login
+  tr
+    td('colspan' = 2)
+      #fb-login.fb_button(style='background-position: left -188px')
+        a.fb_button_medium(href='/auth/facebook', style='text-decoration:none')
+          span#fb_login_text.fb_button_text
+            | Connect with Facebook
