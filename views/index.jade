@@ -7,6 +7,16 @@ block content
   if everyauth.user
     p Email: #{everyauth.user.email}
 
+  #search_bar
+    select#product_criteria
+      option(value= 'title', selected) Title
+      option(value= 'ISBN') ISBN
+      option(value= 'author') Author
+
+    input#query_text(type='text', value="Search")
+    input(type='button', value="GO", onclick="app.loadSearch('shelf_box');")
+
+
   // !=partial('fields', { locals: { d: d } })
   #sidebar
     | Categories

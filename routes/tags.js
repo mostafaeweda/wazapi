@@ -10,7 +10,7 @@ var Tag = app.Schema.Tag;
  */
 exports.search = function(req, res, next) {
     var tagId = req.params.tagId;
-    var filter = req.body.filter || 'most_rented';
+    var filter = req.query.filter || 'most_rented';
     if (! tagId) return next("Search tag not provided");
     switch (filter) {
         case 'most_rented':

@@ -18,10 +18,23 @@ app.param('bookId', function(req, res, next, id) {
 });
 
 /*
- * GET all books
+ * Search books
  */
-exports.index = function(req, res) {
-  res.render('index', { title: 'Express' });
+exports.search = function(req, res, next) { 
+    var criteria = req.query.product_criteria || 'title';
+    var q = req.query.q;
+
+    if (! q) return next(new Error('Search query not provided !!!'));
+
+    Book.where(criteria, new RegExp(q, 'i'))
+        .run(function(err, results) {
+
+        if (err) return next(err);
+
+        res.render('books/search', {
+            result: results
+        });
+    });
 };
 
 /*
