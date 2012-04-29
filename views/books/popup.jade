@@ -1,17 +1,26 @@
 div#viewer
-  img.cover(src=book.coverUrl, alt=book.title)
-  | #(book.title)
-  br
-  | #(book.author)
+  #popup_info
+    img.cover_popup(src=book.coverUrl, alt=book.title)
+    <br/> Title: #{book.title}
+    <br/> ISBN: #{book.ISBN}
+    <br/> Author: #{book.author}
 
-div.body
-  | Tags: #{book.tags}
-  | Publisher: #{book.publisher} , #{book.publishDate}
-  if (book.instanceNum > book.borrowedNum)
-    | Available Now
+    <br/> Tags: 
+    each tag in book.tags
+      span.tag #{tag.name} 
+    <br/> Publisher: #{book.publisher} , #{book.publishDate}
+    <br/> Market price: #{book.marketPrice} $
+    <br/> Rental price: #{book.rentalPrice} $
+    form(id='rental_form')
+      if (book.instancesNum > book.borrowedNum)
+        input(type='number', value='1', min='1', max='5', name='instance[days]')
+        |  Days
+        p: a(href="javascript:app.rentRequest()") Rent now
 
-span.rent_button
-  a(href="javascript:alert('Rent popup')") Rent
+      else
+        | Not available for renting
 
-div.amazon_reviews
-  | HONGA
+      p: a(href="javascript:alert('Purchase action')") Purchase now
+
+  #amazon_reviews
+    | HONGA

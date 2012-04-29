@@ -18,10 +18,12 @@ exports.index = function(req, res, next) {
         req.flash('info', 'Successfully logged in ' + req.user.email + '_.');
     // retrieve the newest books
 
-    Book.find().sort('uploadDate', -1).limit(per_page).find(function (err, newlyCreatedBooks) {
+    Book.find().sort('uploadDate', -1).limit(per_page)
+        .find(function (err, newlyCreatedBooks) {
         if (err) return next(err);
 
-        Tag.find().sort('frequency', -1).limit(tagsNum).find(function(err, tags) {
+        Tag.find().sort('frequency', -1).limit(tagsNum)
+            .find(function(err, tags) {
             if (err) return next(err);
 
             Book.count({}, function (err, count) {

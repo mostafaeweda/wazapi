@@ -30,12 +30,14 @@ var Book = new Schema({
     publisher    : { type: String, trim: true },
     publishDate  : Date,
     createdDate  : { type: Date, default: Date.now },
-    owner       : { type: Schema.ObjectId, ref: 'User' },
     tags         : [{ type: Schema.ObjectId, ref: 'Tag'}],
     comments     : [Comment],
-    instancesNum : Number, // The total number of instances available
-    borrowedNum  : Number, // The currently borrowed number of instances
-    rentalHits   : { type: Number, index: { sparse: true } }, // Number of times this book has been rented
+    // The total number of instances available
+    instancesNum : { type: Number, default: 0 },
+     // The currently borrowed number of instances
+    borrowedNum  : { type: Number, default: 0 },
+    // Number of times this book has been rented
+    rentalHits   : { type: Number, default: 0, index: { sparse: true } },
     marketPrice  : Number,
     rentalPrice  : Number
 });
@@ -52,20 +54,26 @@ var User = new Schema({
 
 // A single instance to be borrowed
 var Instance = new Schema({
-    user      : { type: Schema.ObjectId, ref: 'User' },
-    object    : Schema.ObjectId,
-    type      : { type: String },
-    startTime : { type: Date, default: Date.now },
-    endTime   : Date,
-    available : { type: Boolean, default: true }
+    owner     : { type: Schema.ObjectId, ref: 'User' },
+    book      : { type: Schema.ObjectId, ref: 'Book' },
+    freeOn    : { type: Date },
+    // The owner set it to be available for rental
+    available : { type: Boolean, default: false }
+});
+
+var Rental = new Schema({
+    user         : { type: Schema.ObjectId, ref: 'User' },
+    instance     : { type: Schema.ObjectId, ref: 'Instance' },
+    startTime    : { type: Date, default: Date.now },
+    endTime      : { type: Date },
+    chargedPrice : Number
 });
 
 // A user purchase
 var Purchase = new Schema({
     user      : { type: Schema.ObjectId, ref: 'User' },
-    object    : Schema.ObjectId,
+    book      : { type: Schema.ObjectId, ref: 'Book' },
     date      : { type: Date, default: Date.now },
-    type      : { type: String },
     price     : Number
 });
 
@@ -93,3 +101,4 @@ exports.Book = mongoose.model('Book', Book);
 exports.User = mongoose.model('User', User);
 exports.Instance = mongoose.model('Instance', Instance);
 exports.Purchase = mongoose.model('Purchase', Purchase);
+exports.Rental = mongoose.model('Rental', Rental);

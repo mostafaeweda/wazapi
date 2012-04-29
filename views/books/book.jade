@@ -5,7 +5,7 @@ div.book_box
   br
   if (book.instancesNum > 0)
     span.rent_button
-      a(href="javascript:alert('Rent popup')")
+      a(href="javascript:app.rentPopup('#{book._id}')")
         | Rent
   | 
   span(class = book.instancesNum > 0 ? 'purchase_button' : 'purchase_only_button')
