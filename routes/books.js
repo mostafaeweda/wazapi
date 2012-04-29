@@ -89,8 +89,8 @@ exports.rent = function(req, res, next) {
       if (err) return next(err);
 
       new Rental({
-        user: req.user._id,
-        instance: instance._id,
+        user: req.user,
+        instance: instance,
         startTime: now,
         endTime: freeOn,
         chargedPrice: req.book.rentalPrice * days
