@@ -19,9 +19,7 @@ var Comment = new Schema({
 
 var Tag = new Schema({
     name         : { type: String, index: { unique: true, sparse: true } },
-    type         : { type: String },
-    object       : Schema.ObjectId,
-    frequency    : { type: Number, index: true },
+    frequency    : { type: Number, index: true }
 });
 
 var Book = new Schema({
@@ -33,11 +31,11 @@ var Book = new Schema({
     publishDate  : Date,
     createdDate  : { type: Date, default: Date.now },
     owner       : { type: Schema.ObjectId, ref: 'User' },
-    tags         : [Tag],
+    tags         : [{ type: Schema.ObjectId, ref: 'Tag'}],
     comments     : [Comment],
     instancesNum : Number, // The total number of instances available
     borrowedNum  : Number, // The currently borrowed number of instances
-    rentalHits   : { type: Number, index: { unique: true, sparse: true } }, // Number of times this book has been rented
+    rentalHits   : { type: Number, index: { sparse: true } }, // Number of times this book has been rented
     marketPrice  : Number,
     rentalPrice  : Number
 });

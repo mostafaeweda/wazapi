@@ -1,0 +1,17 @@
+div#viewer
+  img.cover(src=book.coverUrl, alt=book.title)
+  | #(book.title)
+  br
+  | #(book.author)
+
+div.body
+  | Tags: #{book.tags}
+  | Publisher: #{book.publisher} , #{book.publishDate}
+  if (book.instanceNum > book.borrowedNum)
+    | Available Now
+
+span.rent_button
+  a(href="javascript:alert('Rent popup')") Rent
+
+div.amazon_reviews
+  | HONGA

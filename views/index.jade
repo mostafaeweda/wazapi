@@ -1,11 +1,34 @@
 extends layout
 
+append head
+  script(src='#{staticPrefix}/js/app.js')
+
 block content
   if everyauth.user
     p Email: #{everyauth.user.email}
 
+  #search_bar
+    select#product_criteria
+      option(value= 'title', selected) Title
+      option(value= 'ISBN') ISBN
+      option(value= 'author') Author
+
+    input#query_text(type='text', value="Search")
+    input(type='button', value="GO", onclick="app.loadSearch();")
+
+
   // !=partial('fields', { locals: { d: d } })
-  each book in mostRented
-    include books/book
-  each tag in tags
-    | #{tag.name} (#{tag.frequency})
+  #sidebar
+    | Categories
+    .tag: a(href="javascript:app.loadTag()") All
+    each tag in tags
+      .tag: a(href="javascript:app.loadTag('#{tag._id}')") #{tag.name} (#{tag.frequency})
+
+  #center_box
+    select#general_filter
+      option(value='newest', selected) Newest Books
+      option(value='most_rented') Most rented books
+
+    #shelf_box
+      each book in newlyCreated
+        include books/book
