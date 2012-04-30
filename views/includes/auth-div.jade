@@ -3,3 +3,6 @@ if (! everyauth.loggedIn)
     span: a.popup(href="#auth_popup") register
     |  | 
     span: a.popup(href="#auth_popup") login 
+else
+  div(style='float:right;')
+    span: a(href="/logout") logout

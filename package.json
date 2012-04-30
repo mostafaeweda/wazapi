@@ -17,6 +17,6 @@
     "cloudfoundry" : ">=0.1.0",
     "activity-streams-mongoose": ">=0.0.6",
     "mongoose": "",
-    "asynjs": "0.0.6"
+    "bcrypt": ">= 0.5"
   }
 }

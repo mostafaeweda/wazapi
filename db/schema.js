@@ -44,6 +44,7 @@ var User = new Schema({
     firstname  : String,
     lastname   : String,
     email      : { type: String, required: true, index: { unique: true, sparse: true } },
+    salt       : { type: String, required: true},
     password   : { type: String, required: true},
     billing    : {},
     tokens     : {facebook : String, google: String},

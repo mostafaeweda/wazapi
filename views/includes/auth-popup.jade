@@ -1,4 +1,4 @@
-link(rel='stylesheet', href='#{staticPrefix}/css/jquery.fancybox-1.3.4.css')
+link(rel='stylesheet', href='#{staticPrefix}/css/fancybox/jquery.fancybox-1.3.4.css')
 script(src='#{staticPrefix}/js/jquery.fancybox-1.3.4.js')
 if (! everyauth.loggedIn)
   div(style="display:none")
@@ -7,7 +7,8 @@ if (! everyauth.loggedIn)
   script
     $(document).ready(function() {
       $("a.popup").fancybox({
-        'hideOnOverlayClick': true
+        'hideOnOverlayClick': true,
+        'showCloseButton' : true
       });
     });
     $("#register_form").bind("submit", function() {
@@ -32,8 +33,20 @@ if (! everyauth.loggedIn)
         cache   : false,
         url     : "/register",
         data    : $(this).serializeArray(),
-        success: function(data) {
-          $.fancybox(data);
+        statusCode: {
+          200: function(data) {
+            $.fancybox(data);  
+          },
+          303: function(data) {
+            window.location = data.responseText;
+          },
+          500: function(data) {
+            var errors = JSON.parse(data.responseText);
+            i = errors.length - 1;
+            do {
+              $("#register-errors ul").append('<li>' + errors[i] + '</li>');
+            } while (i--);
+          }
         }
       });
       return false;
@@ -53,8 +66,20 @@ if (! everyauth.loggedIn)
         cache   : false,
         url     : "/login",
         data    : $(this).serializeArray(),
-        success: function(data) {
-          $.fancybox(data);
+        statusCode: {
+          200: function(data) {
+            $.fancybox(data);  
+          },
+          303: function(data) {
+            window.location = data.responseText;
+          },
+          500: function(data) {
+            var errors = JSON.parse(data.responseText);
+            i = errors.length - 1;
+            do {
+              $("#login-errors").append('<li>' + errors[i] + '</li>');
+            } while (i--);
+          }
         }
       });
       return false;
