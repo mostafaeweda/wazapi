@@ -85,6 +85,7 @@ module.exports = function (app, callback) {
             author: "Ahmed El-Bayaa",
             publisher: "Wazapi",
             publishDate: new Date(),
+            uploadedDate: new Date(),
             tags: [tags[0]],
             owner: users[0],
             instancesNum: 3,
@@ -104,6 +105,7 @@ module.exports = function (app, callback) {
             author: "Mostafa Eweda",
             publisher: "Wazapi",
             publishDate: new Date(),
+            uploadedDate: new Date(),
             tags: [tags[1]],
             owner: users[0],
             instancesNum: 2,
@@ -123,6 +125,7 @@ module.exports = function (app, callback) {
             author: "Yahya Moweina",
             publisher: "Wazapi",
             publishDate: new Date(),
+            uploadedDate: new Date(),
             tags: [tags[0]],
             owner: users[0],
             instancesNum: 3,
@@ -142,6 +145,7 @@ module.exports = function (app, callback) {
             author: "Mostafa Eweda",
             publisher: "Wazapi",
             publishDate: new Date(),
+            uploadedDate: new Date(),
             tags: [tags[2]],
             owner: users[1],
             instancesNum: 2,
@@ -323,10 +327,10 @@ module.exports = function (app, callback) {
               asyncjs.list(instIdxs)
                 .each(function(idx, next2) {
                   var instance = new Instance({
-                    owner: users[0],
+                    owner: users[borrowedNum] || users[0],
                     book: book,
                     freeOn: borrowedNum < book.borrowedNum ? farFuture : now,
-                    isPrivate : false
+                    available : true
                   });
                   borrowedNum++;
                   instance.save(next2);
