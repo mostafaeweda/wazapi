@@ -21,8 +21,15 @@ var Book = new Schema({
   borrowedNum  : { type: Number, default: 0 },
   // Number of times this book has been rented
   rentalHits   : { type: Number, default: 0, index: { sparse: true } },
-  marketPrice  : Number,
-  rentalPrice  : Number
+  
+  /* TODO put cached statistics here -> instancesNum, borrowedNum, rentalHits
+  stats: {
+    
+  }, */
+  pricing: {
+    market  : Number,
+    rental  : Number
+  }
 });
 
 /**

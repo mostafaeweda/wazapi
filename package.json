@@ -17,6 +17,12 @@
     "cloudfoundry" : ">=0.1.0",
     "activity-streams-mongoose": ">=0.0.6",
     "mongoose": "",
-    "asynjs": "0.0.6"
-  }
+    "asyncjs": "0.0.6"
+  },
+  "contributors": [
+    { "name": "Mostafa Eweda", "email": "mostafa.eweda17@gmail.com" },
+    { "name": "Ahmed ElMorsy", "email": "ahmedelmorsy89@gmail.com" },
+    { "name": "Yahya Moiena", "email": "mowiena@gmail.com"},
+    { "name": "Ahmed ElBayaa", "email": "ahmed.elbaiaa@gmail.com"}
+  ]
 }

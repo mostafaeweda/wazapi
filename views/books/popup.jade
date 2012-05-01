@@ -9,8 +9,8 @@ div#viewer
     each tag in book.tags
       span.tag #{tag.name} 
     <br/> Publisher: #{book.publisher} , #{book.publishDate}
-    <br/> Market price: #{book.marketPrice} $
-    <br/> Rental price: #{book.rentalPrice} $
+    <br/> Market price: #{book.pricing.market} $
+    <br/> Rental price: #{book.pricing.rental} $
     form(id='rental_form')
       if (book.instancesNum > book.borrowedNum)
         input(type='number', value='1', min='1', max='5', name='instance[days]')

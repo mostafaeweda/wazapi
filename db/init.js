@@ -91,8 +91,10 @@ module.exports = function (app, callback) {
             instancesNum: 3,
             borrowedNum: 2,
             rentalHits: 5,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -111,8 +113,10 @@ module.exports = function (app, callback) {
             instancesNum: 2,
             borrowedNum: 1,
             rentalHits: 4,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -131,8 +135,10 @@ module.exports = function (app, callback) {
             instancesNum: 3,
             borrowedNum: 2,
             rentalHits: 5,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -151,8 +157,10 @@ module.exports = function (app, callback) {
             instancesNum: 2,
             borrowedNum: 1,
             rentalHits: 4,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -170,8 +178,10 @@ module.exports = function (app, callback) {
             instancesNum: 3,
             borrowedNum: 2,
             rentalHits: 5,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -189,8 +199,10 @@ module.exports = function (app, callback) {
             instancesNum: 2,
             borrowedNum: 1,
             rentalHits: 4,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -208,8 +220,10 @@ module.exports = function (app, callback) {
             instancesNum: 3,
             borrowedNum: 2,
             rentalHits: 5,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -227,8 +241,10 @@ module.exports = function (app, callback) {
             instancesNum: 2,
             borrowedNum: 1,
             rentalHits: 4,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -246,8 +262,10 @@ module.exports = function (app, callback) {
             instancesNum: 3,
             borrowedNum: 2,
             rentalHits: 5,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -265,8 +283,10 @@ module.exports = function (app, callback) {
             instancesNum: 2,
             borrowedNum: 1,
             rentalHits: 4,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -284,8 +304,10 @@ module.exports = function (app, callback) {
             instancesNum: 3,
             borrowedNum: 2,
             rentalHits: 5,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
@@ -303,8 +325,10 @@ module.exports = function (app, callback) {
             instancesNum: 2,
             borrowedNum: 1,
             rentalHits: 4,
-            marketPrice: 15,
-            rentalPrice: 2
+            pricing: {
+              market: 15,
+              rental: 2
+            }
           });
           books.push(book);
           book.save(callback);
