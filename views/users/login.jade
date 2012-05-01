@@ -1,10 +1,7 @@
 h2 Login
 div#login_err_div(style='display:none;')
   | Please Enter Data!
-- if ('undefined' !== typeof errors && errors.length)
-  ul#errors
-    - each error in errors
-      li.error= error
+ul#login-errors
 form#login_form(action='/login', method='post')
   #login
     label(for=everyauth.password.loginFormFieldName) Login

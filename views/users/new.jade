@@ -1,10 +1,7 @@
 h2 Register
 div#errors_div(style="display:none;")
     | Please Enter Data!
-- if ('undefined' !== typeof errors && errors.length)
-  ul#errors
-    - each error in errors
-      li.error= error
+ul#register-errors
 form#register_form(action='/register', method='post')
   #login
     label(for=everyauth.password.loginFormFieldName) Email
