@@ -18,7 +18,35 @@ var app = {
   loadSearch: function () {
     $('#shelf_box').load('/books/search/'
         + '?filter='+$('#product_criteria').val()+'&q=' 
-            + $('#query_text').val());
+            + encodeURIComponent($('#query_text').val()));
+  },
+
+  rentPopup: function (bookId) {
+    $.fancybox.showActivity();
+    $.ajax({
+      url   : "/books/popup/" + bookId,
+      success: function(data) {
+        $.fancybox(data);
+
+        $("#rental_form").bind("submit", function() {
+          $.ajax({
+            type    : "POST",
+            cache   : false,
+            url     : "/books/rent/" + bookId,
+            data    : $(this).serializeArray(),
+            success: function(data) {
+              alert('OK');
+            }
+          });
+          return false;
+        });
+
+      }
+    });
+  },
+
+  rentRequest: function () {
+    $('#rental_form').submit();
   }
 };
 
