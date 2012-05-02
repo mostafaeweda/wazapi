@@ -12,7 +12,7 @@ applications:
     mem: 128M
     instances: 1
     services:
-      mongo-asms:
+      mongodb-wazapi:
         type: mongodb
-      redis-asms:
+      redis-wazapi:
         type: :redis

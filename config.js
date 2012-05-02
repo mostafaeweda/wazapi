@@ -50,8 +50,8 @@ if (cf.cloud) {
 
 	settings.airbrakeApiKey = process.env.airbrake_api_key; // Error logging, Get free API key from https://airbrakeapp.com/account/new/Free
 
-    if (cf.redis['redis-asms'] != null) {
-        var redisConfig = cf.redis['redis-asms'].credentials;
+    if (cf.redis['redis-wazapi'] != null) {
+        var redisConfig = cf.redis['redis-wazapi'].credentials;
         settings.redisOptions.port = redisConfig.port;
         settings.redisOptions.host = redisConfig.hostname;
         settings.redisOptions.pass = redisConfig.password;
@@ -59,8 +59,8 @@ if (cf.cloud) {
         console.dir(settings.redisOptions);
     }
 
-    if (cf.mongodb['mongo-asms']) {
-        var cfg = cf.mongodb['mongo-asms'].credentials;
+    if (cf.mongodb['mongo-wazapi']) {
+        var cfg = cf.mongodb['mongo-wazapi'].credentials;
         settings.mongoUrl = ["mongodb://", cfg.username, ":", cfg.password, "@", cfg.hostname, ":", cfg.port,"/" + cfg.db].join('');
     }
     settings.user_email = cf.app['users'][0];

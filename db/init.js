@@ -1,5 +1,6 @@
 var asyncjs = require('asyncjs');
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
 
 module.exports = function (app, callback) {
   var db = mongoose.createConnection(app.config.mongoUrl);
@@ -18,41 +19,49 @@ module.exports = function (app, callback) {
       asyncjs.list([
         //create users
         function (callback) {
+          var salt = bcrypt.genSaltSync(10);
           var user = new User({
             firstname: "Mostafa",
             lastname: "Eweda",
             email: "eweda@wazapi.com",
-            password: "123456",
+            salt: salt,
+            password: bcrypt.hashSync("123456", salt)
           });
           users.push(user);
           user.save(callback);
         },
         function (callback) {
+          var salt = bcrypt.genSaltSync(10);
           var user = new User({
             firstname: "Yahya",
             lastname: "Moweina",
             email: "yahya@wazapi.com",
-            password: "123456",
+            salt: salt,
+            password: bcrypt.hashSync("123456", salt)
           });
           users.push(user);
           user.save(callback);
         },
         function (callback) {
+          var salt = bcrypt.genSaltSync(10);
           var user = new User({
             firstname: "Ahmed",
             lastname: "ElMorsy",
             email: "morsy@wazapi.com",
-            password: "123456",
+            salt: salt,
+            password: bcrypt.hashSync("123456", salt)
           });
           users.push(user);
           user.save(callback);
         },
         function (callback) {
+          var salt = bcrypt.genSaltSync(10);
           var user = new User({
             firstname: "Ahmed",
             lastname: "ElBayaa",
             email: "elbayaa@wazapi.com",
-            password: "123456",
+            salt: salt,
+            password: bcrypt.hashSync("123456", salt)
           });
           users.push(user);
           user.save(callback);
