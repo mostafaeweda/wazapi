@@ -24,6 +24,7 @@ app.config = config;
 app.Schema = Schema;
 
 var Auth = require('./lib/auth');
+var Amazon = require('./lib/amazon-api');
 
 app.listen(config.internal_port, null);
 
@@ -204,3 +205,8 @@ app.all('*', function(req, res){
 */
 
 console.log('Running in ' + ( process.env.NODE_ENV || 'development' ) + ' mode @ ' + config.uri);
+
+//DEBUG
+Amazon.searchBooks('0132151421', function(err, results){
+  console.log(results);
+});

@@ -18,6 +18,7 @@
     "activity-streams-mongoose": ">=0.0.6",
     "mongoose": "",
     "asyncjs": "0.0.6",
-    "bcrypt": ">= 0.5"
+    "bcrypt": ">= 0.5",
+    "apac": ""
   }
 }
