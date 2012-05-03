@@ -2,6 +2,10 @@ extends layout
 
 append head
   script(src='#{staticPrefix}/js/app.js')
+  script
+    $(function() {
+      $('#general_filter_2').buttonset();
+    });
 
 block content
   if everyauth.user
@@ -25,9 +29,13 @@ block content
       .tag: a(href="javascript:app.loadTag('#{tag._id}')") #{tag.name} (#{tag.frequency})
 
   #center_box
-    select#general_filter
-      option(value='newest', selected) Newest Books
-      option(value='most_rented') Most rented books
+    #general_filter_2
+      input(type="radio", id="filter_newest", checked="checked", name="radio")
+      label(for="filter_newest")
+        | Newest Books
+      input(type="radio", id="filter_most_rented", name="radio")
+      label(for="filter_most_rented")
+        | Most Rented Books
 
     #shelf_box
       each book in newlyCreated

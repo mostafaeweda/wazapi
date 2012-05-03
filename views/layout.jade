@@ -6,10 +6,13 @@ html
     <meta name="description" content="Wazapi"/>
     <meta name="keywords" content="wazapi book rent lend"/>
 
-    link(rel="icon", type="image/gif", href="favicon.ico")
-    link(rel='stylesheet', href='#{staticPrefix}/css/style.css')
-    script(src='#{staticPrefix}/js/jquery-latest.js')
-    // script(src='http://static.ak.fbcdn.net/connect/en_US/core.js')
+    link(rel="icon", type="image/gif", href="#{staticPrefix}/favicon.ico")
+    link(type="text/css", rel="stylesheet", href="#{staticPrefix}/css/style.css")
+    link(type="text/css", rel="stylesheet", href="#{staticPrefix}/css/redmond/jquery-ui-1.8.20.custom.css")
+
+    script(type="text/javascript", src="js/jquery-1.7.2.min.js")
+    script(type="text/javascript", src="js/jquery-ui-1.8.20.custom.min.js")
+    script(type="text/javascript", src="http://static.ak.fbcdn.net/connect/en_US/core.js")
   body
     include includes/header
     block content

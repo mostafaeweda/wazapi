@@ -1,8 +1,11 @@
 var app = {
   init: function() {
     var _self = this;
-    $('#general_filter').change(function (e) {
-      _self.loadTag(null, this.value);
+    $('#filter_newest').click(function (e) {
+      _self.loadTag(null, 'newest');
+    });
+    $('#filter_most_rented').click(function (e) {
+      _self.loadTag(null, 'most_rented');
     });
   },
 
