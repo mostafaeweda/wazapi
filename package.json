@@ -17,7 +17,8 @@
     "cloudfoundry" : ">=0.1.0",
     "activity-streams-mongoose": ">=0.0.6",
     "mongoose": "",
-    "asyncjs": "0.0.6"
+    "asyncjs": "0.0.6",
+    "bcrypt": ">= 0.5"
   },
   "contributors": [
     { "name": "Mostafa Eweda", "email": "mostafa.eweda17@gmail.com" },

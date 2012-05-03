@@ -6,6 +6,7 @@ var User = new Schema({
   lastname   : String,
   email      : { type: String, required: true, index: { unique: true, sparse: true } },
   password   : { type: String, required: true},
+  salt       : { type: String, required: true},
   billing    : {},
   tokens     : {facebook : String, google: String},
   alive      : { type: Boolean, default: false }
