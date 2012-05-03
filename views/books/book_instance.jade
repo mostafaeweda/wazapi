@@ -1,0 +1,12 @@
+book = instance.book
+.book_show
+  img.cover(src=book.coverUrl, alt=book.title)
+  .info
+    h3 ISBN: #{book.ISBN}
+    h4 Title: #{book.title}
+    h4 rental price: #{book.rentalPrice} $
+    p #{instance.freeOn}
+    if(!instance.available)
+      a(href="javascript:alert('offer for rent')") offer for rent
+    else if(instance.available && instance.freeOn < new Date())
+      a(href="javascript:alert('offer for rent')") cancel rental offer

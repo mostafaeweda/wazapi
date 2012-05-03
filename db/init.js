@@ -1,4 +1,4 @@
-var asyncjs = require('asyncjs');
+var Asyncjs = require('Asyncjs');
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 
@@ -16,7 +16,7 @@ module.exports = function (app, callback) {
       var books = [];
       var tags = [];
 
-      asyncjs.list([
+      Asyncjs.list([
         //create users
         function (callback) {
           var salt = bcrypt.genSaltSync(10);
@@ -72,7 +72,7 @@ module.exports = function (app, callback) {
           var tagNames = ["Sports", "Economics", "Computer Science",
               "Technical", "Cooking", "Socializm"];
           var i = 0;
-          asyncjs.list(tagNames)
+          Asyncjs.list(tagNames)
             .each(function(name, next) {
               var tag = new Tag({
                 name: name,
@@ -323,8 +323,9 @@ module.exports = function (app, callback) {
 
           var now = new Date();
           var farFuture = new Date(2013, 0, 1);
-
-          asyncjs.list(books)
+          var availability = true;
+          
+          Asyncjs.list(books)
             .each(function(book, next) {
 
               var instIdxs = [];
@@ -333,16 +334,32 @@ module.exports = function (app, callback) {
 
               var borrowedNum = 0;
 
-              asyncjs.list(instIdxs)
+              Asyncjs.list(instIdxs)
                 .each(function(idx, next2) {
                   var instance = new Instance({
-                    owner: users[borrowedNum] || users[0],
+                    owner: users[0],
                     book: book,
                     freeOn: borrowedNum < book.borrowedNum ? farFuture : now,
-                    available : true
+                    available : borrowedNum < book.borrowedNum ? true : availability,
                   });
                   borrowedNum++;
-                  instance.save(next2);
+                  availability = !availability;
+                  instance.save(function (err) {
+                    if (err) return next2(err);
+
+                    if (borrowedNum <= book.borrowedNum){
+                      var rent = new Rental({
+                        user         : users[1],
+                        instance     : instance,
+                        startTime    : now,
+                        endTime      : farFuture,
+                        chargedPrice : book.rentalPrice
+                      });
+                      rent.save(next2);
+                    } else {
+                      next2();
+                    }
+                  });
                 }).end(function(err, result) {
                   next(err);
                 });

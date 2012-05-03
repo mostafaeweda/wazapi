@@ -187,11 +187,14 @@ app.error(function(err, req, res, next){
 var routes = require('./routes');
 
 app.get('/', routes.index);
+
 app.get('/books/search', routes.books.search);
 app.get('/books/popup/:bookId([0-9a-f]+)', routes.books.popup);
 app.post('/books/rent/:bookId([0-9a-f]+)', routes.books.rent);
 app.get('/books/tags/:tagId([0-9a-f]+)?', routes.books.tags.search);
 app.post('/books/:bookId([0-9a-f]+)/comments', routes.books.comments.create);
+
+app.get('/users/:userId([0-9a-f]+)', routes.users.profile);
 
 Auth.helpExpress(app);
 

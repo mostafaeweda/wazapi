@@ -11,4 +11,8 @@ var Instance = new Schema({
   available    : { type: Boolean, default: false }
 });
 
+Instance.statics.findByOwner = function (owner, callback) {
+ return this.find({ owner: owner}).populate('book').run(callback);
+};
+
 module.exports = mongoose.model('Instance', Instance);
