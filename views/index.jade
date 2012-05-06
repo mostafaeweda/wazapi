@@ -4,9 +4,6 @@ append head
   script(src='#{staticPrefix}/js/app.js')
 
 block content
-  if everyauth.user
-    p Email: #{everyauth.user.email}
-
   #search_bar
     select#product_criteria
       option(value= 'title', selected) Title

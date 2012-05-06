@@ -1,6 +1,6 @@
-var Asyncjs = require('Asyncjs');
+var Asyncjs = require('asyncjs');
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var bcrypt = require('../lib/bcrypt');
 
 module.exports = function (app, callback) {
   var db = mongoose.createConnection(app.config.mongoUrl);
@@ -11,7 +11,7 @@ module.exports = function (app, callback) {
       var Book = app.Schema.Book;
       var Tag = app.Schema.Tag;
       var Instance = app.Schema.Instance;
-
+	  var Rental = app.Schema.Rental;
       var users = [];
       var books = [];
       var tags = [];

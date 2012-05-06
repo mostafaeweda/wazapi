@@ -6,3 +6,8 @@ if (! everyauth.loggedIn)
 else
   div(style='float:right;')
     span: a(href="/logout") logout
+  h5
+      #{everyauth.user.email}
+      #{everyauth.user._id}
+
+  

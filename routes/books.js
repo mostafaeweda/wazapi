@@ -44,7 +44,6 @@ exports.search = function(req, res, next) {
  */
 exports.popup = function(req, res, next) {
   var bookId = req.params.bookId;
-
   Book.findById(bookId).populate('tags')
     .run(function(err, book) {
 
@@ -58,6 +57,20 @@ exports.popup = function(req, res, next) {
 };
 
 /*
+ * offer an instance of a book for rental
+ */
+exports.changeAvailability = function(req, res, next) {
+	Instance.findById(req.params.instanceId).
+    populate('book').run(function (err, instance) {
+	    if (err) return next(err);
+	    instance.available = !instance.available;
+	    instance.save(function (err) {
+        	if (err) return next(err);
+        	res.render('books/book_my_instance', { instance: instance });
+      	});
+    });
+};
+/*
  * Rent a book immediately, or enter a rental queue.
  */
 exports.rent = function(req, res, next) {
@@ -67,40 +80,78 @@ exports.rent = function(req, res, next) {
     return res.redirect('payment/info');
   }
   */
-
+	
+  var instanceId = req.params.instanceId;
   var now = new Date();
-  Instance.find({book: req.params.bookId, freeOn: {$lt: now}},
-    function (err, instances) {
+  if (instanceId) {
+  	
+    Instance.findById(instanceId, function (err, instance) {
 
-    if (err) return next(err);
-    if (instances.length == 0) return next(new Error('No avialable instances for this book'));
+	    if (err) return next(err);
+	    if (!instance) return next(new Error('book instant is not available'));
 
-    var instance = instances[0];
-    // instance is now avialable
+	    // instance is now avialable
 
-    // TODO billing the user and email the user
+	    // TODO billing the user and email the user
 
-    // Update the instance's freeOn
-    var days = (Number((req.body.instance || {}).days) || 1);
-    var freeOn = new Date();
-    freeOn.setDate(freeOn.getDate() + days);
-    instance.freeOn = freeOn;
-    instance.save(function (err) {
-      if (err) return next(err);
+	    // Update the instance's freeOn
+	    var days = (Number((req.body.instance || {}).days) || 1);
+	    var freeOn = new Date();
+	    freeOn.setDate(freeOn.getDate() + days);
+	    instance.freeOn = freeOn;
+	    instance.save(function (err) {
+	      if (err) return next(err);
 
-      new Rental({
-        user: req.user,
-        instance: instance,
-        startTime: now,
-        endTime: freeOn,
-        chargedPrice: req.book.rentalPrice * days
-      }).save(function (err) {
-        if (err) return next(err);
+	      new Rental({
+	        user: req.user,
+	        instance: instance,
+	        startTime: now,
+	        endTime: freeOn,
+	        chargedPrice: req.book.rentalPrice * days
+	      }).save(function (err) {
+	        if (err) return next(err);
 
-        res.send(200);
-      });
-    });
-  });
+	        res.send(200);
+	      });
+	    });
+	  });
+
+  } else {
+  	
+	  	Instance.find({book: req.params.bookId, freeOn: {$lt: now}},
+	    function (err, instances) {
+
+	    if (err) return next(err);
+	    if (instances.length == 0) return next(new Error('No avialable instances for this book'));
+
+	    var instance = instances[0];
+	    // instance is now avialable
+
+	    // TODO billing the user and email the user
+
+	    // Update the instance's freeOn
+	    var days = (Number((req.body.instance || {}).days) || 1);
+	    var freeOn = new Date();
+	    freeOn.setDate(freeOn.getDate() + days);
+	    instance.freeOn = freeOn;
+	    instance.save(function (err) {
+	      if (err) return next(err);
+
+	      new Rental({
+	        user: req.user,
+	        instance: instance,
+	        startTime: now,
+	        endTime: freeOn,
+	        chargedPrice: req.book.rentalPrice * days
+	      }).save(function (err) {
+	        if (err) return next(err);
+
+	        res.send(200);
+	      });
+	    });
+	  });
+  }
+  
 };
 
 /*

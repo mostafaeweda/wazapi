@@ -190,11 +190,14 @@ app.get('/', routes.index);
 
 app.get('/books/search', routes.books.search);
 app.get('/books/popup/:bookId([0-9a-f]+)', routes.books.popup);
-app.post('/books/rent/:bookId([0-9a-f]+)', routes.books.rent);
+app.post('/books/rent/:bookId([0-9a-f]+)/:instanceId([0-9a-f]+)?', routes.books.rent);
+app.post('/books/change_availability/:instanceId([0-9a-f]+)', 
+	routes.books.changeAvailability);
 app.get('/books/tags/:tagId([0-9a-f]+)?', routes.books.tags.search);
 app.post('/books/:bookId([0-9a-f]+)/comments', routes.books.comments.create);
 
 app.get('/users/:userId([0-9a-f]+)', routes.users.profile);
+app.get('/users/:userId([0-9a-f]+)/:type([1-2])', routes.users.updateBooks);
 
 Auth.helpExpress(app);
 

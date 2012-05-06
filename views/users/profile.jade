@@ -1,25 +1,15 @@
 extends ../layout
 
-block content
-  #sidebar
-    a(href="javascript:alert('offer for rent')")
-      | offer for rent
-      br
-    a(href="javascript:alert('offer for rent')")
-      | offer for rent
-      br
-    a(href="javascript:alert('offer for rent')")
-      | offer for rent
-      br
-    a(href="javascript:alert('offer for rent')")
-      | offer for rent
-  #content
-    div
-      p Your books in the shelf
-    each instance in instances
-      include ../books/book_instance
+append head
+  script(src='#{staticPrefix}/js/app.js')
 
-    div
-      p Books you rented
-    each instance in rentedBooks
-      include ../books/book_instance
+block content
+  if(myProfile)
+    #topbar
+      input(type='button', value="my books", onclick="app.loadBooks('#{userId}',1);")
+      input(type='button', value="rented books", onclick="app.loadBooks('#{userId}',2);")
+      span: a.popup(href="#upload-popup") upload book
+  
+  #content    
+    include update-books
+  

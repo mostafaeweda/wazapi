@@ -24,27 +24,41 @@ exports.create = function(req, res) {
     res.render('users/create', { title: 'Express' });
 };
 
+exports.updateBooks = function(req, res, next){
+	var booksType = req.params.type;
+
+	if(!booksType || booksType == 1) { // the user want to display his books
+	    Instance.findByOwner(req.userReq._id, function (err, ownedInstances) {
+	      if (err) return next(err);
+	      res.render('users/update-books', {
+	        instances: ownedInstances,
+	        myProfile : true,
+	        userId: req.userReq._id
+	      });
+		});
+
+	}else { // the user want to display the books he rented
+		Rental.findInstancesByRenter(req.userReq._id, function (err, rentedInstances) {
+        if (err) return next(err);
+		res.render('users/update-books', {
+	        instances: rentedInstances,
+	        myProfile : true,
+	        userId: req.userReq._id
+        });	    
+       });
+	}
+};
+
 exports.profile = function(req, res, next){
   var id1 = req.userReq._id.toString();
   var id2 = req.user._id.toString();
-  if (id1 == id2) {
-    Instance.findByOwner(req.userReq._id, function (err, ownedBooks) {
-      if (err) return next(err);
-
-      Rental.findInstancesByRenter(req.userReq._id, function (err, rentedInstances) {
-        if (err) return next(err);
-
-        // Rental.findByOwner(req.userReq._id, function (err, ownedBooksRented) {
-          res.render('users/profile', {
-            instances: ownedBooks,
-            rentedBooks: rentedInstances,
-            // ownedBooksRented: ownedBooksRented,
-            myProfile : true
-          });
-        // });
-      });
-    });
-  } else {
-    
+  
+  Instance.findByOwner(req.userReq._id, function (err, ownedInstances) {
+	if (err) return next(err);
+    	res.render('users/profile', {
+	        instances: ownedInstances,
+	        myProfile : id1 == id2,
+	        userId: req.userReq._id
+        });
+	});
   }
-};

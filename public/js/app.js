@@ -16,23 +16,43 @@ var app = {
   },
 
   loadSearch: function () {
-    $('#shelf_box').load('/books/search/'
+  	$('#shelf_box').load('/books/search/'
         + '?filter='+$('#product_criteria').val()+'&q=' 
             + encodeURIComponent($('#query_text').val()));
   },
 
-  rentPopup: function (bookId) {
+  loadBooks: function (userID, booksType) {
+  	$('#content').load('/users/'+userID+'/'+booksType);
+  },
+
+  changeAvailability: function(instanceId) {
+    
+  	$.ajax({
+	  url: "/books/change_availability/" + instanceId,
+	  type: "POST",
+	  success: function(res) {
+	  	$('#' + instanceId).html(res);
+      $('#' + instanceId).toggle("slow", function() {
+        $('#' + instanceId).toggle("slow");
+      });
+	  }
+	});	
+  },
+
+  // called from the index page to rent 
+  // any instance from the book with id = bookId
+  rentPopup: function (bookId, instanceId) {
     $.fancybox.showActivity();
     $.ajax({
       url   : "/books/popup/" + bookId,
       success: function(data) {
-        $.fancybox(data);
+      	$.fancybox(data);
 
         $("#rental_form").bind("submit", function() {
           $.ajax({
             type    : "POST",
             cache   : false,
-            url     : "/books/rent/" + bookId,
+            url     : "/books/rent/" + bookId + (instanceId ? ("/" + instanceId) : ""),
             data    : $(this).serializeArray(),
             success: function(data) {
               alert('OK');

@@ -1,0 +1,23 @@
+book = instance.book
+
+div(id='#{instance._id}', class='book_show')
+  img.cover(src=book.coverUrl, alt=book.title)
+  .info
+    h3 ISBN: #{book.ISBN}
+    h4 Title: #{book.title}
+    h4 rental price: #{book.rentalPrice} $
+
+    //if watching my books (not the books I rented) then I can take the following actions
+
+    if( instance.owner.toString() == user._id.toString()) 
+      if(!instance.available)
+
+        input(type='button', value="offer for rental", onclick="app.changeAvailability('#{instance._id}');")
+
+      else if(instance.available && instance.freeOn < new Date())
+
+        input(type='button', value="cancel rental offer", onclick="app.changeAvailability('#{instance._id}');")
+
+      else if(instance.available && instance.freeOn > new Date())
+        p this book is rented and couldn't be opened
+
