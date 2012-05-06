@@ -8,4 +8,3 @@ exports.User     = require('./user');
 exports.Instance = require('./instance');
 exports.Rental   = require('./rental');
 exports.Purchase = require('./purchase');
-exports.BookDetails = require('./book_details');
