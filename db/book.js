@@ -26,8 +26,13 @@ var Book = new Schema({
   price        : {
     marketPrice  : Number,
     rentalPrice  : Number  
+  },
+  details      : {
+    ASIN         : { type: String, index: { unique: true, sparse: true } },
+    Label        : { type: String},
+    NumberOfItems: { type: Number},
+    NumberOfPages: { type: Number},
   }
-  
 });
 
 /**
