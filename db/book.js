@@ -29,9 +29,9 @@ var Book = new Schema({
   },
   details      : {
     ASIN         : { type: String, index: { unique: true, sparse: true } },
-    Label        : { type: String},
-    NumberOfItems: { type: Number},
-    NumberOfPages: { type: Number}
+    label        : { type: String},
+    numberOfItems: { type: Number},
+    numberOfPages: { type: Number}
   }
 });
 
