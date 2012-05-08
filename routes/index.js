@@ -1,7 +1,6 @@
 var app = require('../app');
 
 exports.books = require('./books');
-exports.users = require('./users');
 
 var per_page = app.config.per_page;
 

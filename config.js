@@ -27,9 +27,10 @@ var settings = {
 			clientId: "821590616390.apps.googleusercontent.com",
 			clientSecret: "qtb4AA90N7zkMVDeEcJyXoXk"
 		}
-		, 'twitter': {
-			consumerKey: process.env.twitter_consumer_key,
-			consumerSecret: process.env.twitter_consumer_secret
+		, 'amazon': {
+			awsId:     'AKIAIXR4XNCZ3OLY632Q',
+  		awsSecret: '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',
+  		assocId:   'wazapi-20',
 		}
 		, 'github': {
 			appId: process.env.github_client_id,

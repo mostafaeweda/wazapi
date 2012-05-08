@@ -16,13 +16,23 @@ var Book = new Schema({
   tags         : [{ type: Schema.ObjectId, ref: 'Tag'}],
   comments     : [Comment],
   // The total number of instances available
-  instancesNum : { type: Number, default: 0 },
+  stats        : {
+    instancesNum : { type: Number, default: 0 },
    // The currently borrowed number of instances
-  borrowedNum  : { type: Number, default: 0 },
-  // Number of times this book has been rented
-  rentalHits   : { type: Number, default: 0, index: { sparse: true } },
-  marketPrice  : Number,
-  rentalPrice  : Number
+    borrowedNum  : { type: Number, default: 0 },
+    // Number of times this book has been rented
+    rentalHits   : { type: Number, default: 0, index: { sparse: true } },  
+  },
+  price        : {
+    marketPrice  : Number,
+    rentalPrice  : Number  
+  },
+  details      : {
+    ASIN         : { type: String, index: { unique: true, sparse: true } },
+    label        : { type: String},
+    numberOfItems: { type: Number},
+    numberOfPages: { type: Number}
+  }
 });
 
 /**
