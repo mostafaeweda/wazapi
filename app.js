@@ -24,7 +24,6 @@ app.config = config;
 app.Schema = Schema;
 
 var Auth = require('./lib/auth');
-var Amazon = require('./lib/amazon-api');
 
 app.listen(config.internal_port, null);
 
